@@ -1,2 +1,3 @@
 install_to '.'
 chew 'psake' '4.1.0'
+chew 'xunit.runners ' '1.9.1'

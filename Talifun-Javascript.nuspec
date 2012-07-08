@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Talifun.Javascript</id>
+    <version>2.5.0.0</version>
+    <title>Talifun.Javascript</title>
+    <authors>Taliesin Sisson</authors>
+    <owners>Talifun Ltd</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://github.com/taliesins/talifun-javascript</projectUrl>
+    <iconUrl>http://code.google.com/p/talifun-web/logo</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>4 different Javascript runtimes, behind common interface.</description>
+    <summary>Run javascript server side in .Net.</summary>
+    <language>en-GB</language>
+    <tags>talifun javascript c# server side</tags>
+    <dependencies>
+      <dependency id="Jurassic" version="2.1.1" />
+	  <dependency id="Newtonsoft.Json" version="4.5.7" />
+	  <dependency id="Noesis.Javascript" version="0.7.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+	<file src="bin\Talifun.Javascript.dll" target="lib/net40" />
+  </files>  
+</package>

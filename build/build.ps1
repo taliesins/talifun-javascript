@@ -10,7 +10,7 @@
 # replace any property value used in any indcluded file. Remember that 
 # values provided on the command line will override all of these files below.
 Include settings.ps1
-#Include xunit.ps1
+Include xunit.ps1
 #Include nunit.ps1
 Include nuget.ps1
 Include msbuild.ps1
@@ -24,8 +24,8 @@ properties {
   # and will not have access to any of your shared properties.
 }
 
-Task Default -depends Initialize, Compile, Test
-Task Release -depends Default #, Package
+Task Default -depends Initialize, Compile, Test, Package
+Task Release -depends Default
 Task Deploy -depends Publish
 
 Task Test { 
@@ -55,7 +55,6 @@ Task Publish -Depends Package {
 }
 
 Task Package -Depends Create-NuGetPackage {
-  
 }
 
 Task ? -Description "Helper to display task info" {
