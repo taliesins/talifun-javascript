@@ -17,7 +17,7 @@
     <dependencies>
       <dependency id="Jurassic" version="2.1.1" />
 	  <dependency id="Newtonsoft.Json" version="4.5.7" />
-	  <dependency id="Noesis.Javascript" version="0.7.0.0" />
+	  <dependency id="Noesis.Javascript" version="0.7.1.0" />
     </dependencies>
   </metadata>
   <files>
