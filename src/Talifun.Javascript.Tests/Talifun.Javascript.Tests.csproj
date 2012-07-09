@@ -66,6 +66,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CoffeeScript.js" />
+    <EmbeddedResource Include="Benchmark.js" />
     <Content Include="SubSpec\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>

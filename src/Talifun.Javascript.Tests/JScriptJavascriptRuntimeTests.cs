@@ -1,4 +1,7 @@
-﻿using SubSpec;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using SubSpec;
 using Talifun.Javascript.JScript;
 using Xunit;
 
@@ -11,7 +14,6 @@ function ReverseString(stringToReverse)
 {
     return stringToReverse.split('').reverse().join('');
 }
-
 ";
 
         [Specification]
@@ -19,7 +21,7 @@ function ReverseString(stringToReverse)
         {
             IJavascriptRuntime javascriptRuntime = null;
             string javascriptReverseStringFunctionResult = string.Empty;
-            @"Given a V8 Javascript Runtime
+            @"Given a JScript Javascript Runtime
               And a reverse string javascript function".Context(() =>
                 {
                     javascriptRuntime = new JScriptJavascriptRuntime();
@@ -36,6 +38,34 @@ function ReverseString(stringToReverse)
                     Assert.Equal("tset", javascriptReverseStringFunctionResult);
                 });
 
+        }
+
+        [Specification]
+        public void BenchmarkResultTest()
+        {
+            IJavascriptRuntime javascriptRuntime = null;
+            string javascriptBenchmarkFunctionResult = string.Empty;
+            @"Given a JScript Javascript Runtime
+              And a benchmark suite".Context(() =>
+                                    {
+                                        javascriptRuntime = new JScriptJavascriptRuntime();
+                                        using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.Benchmark.js")))
+                                        {
+                                            var benchmarkLibrary = reader.ReadToEnd();
+                                            javascriptRuntime.LoadLibrary(benchmarkLibrary);
+                                        }
+                                    });
+
+            @"When benchmark suite is run".Do(() =>
+            {
+                javascriptBenchmarkFunctionResult = javascriptRuntime.ExecuteFunction<string>("RunBenchMark", new object[] { });
+            });
+
+            @"Then benchmark results should be returned".Observation(() =>
+            {
+                Assert.NotNull(javascriptBenchmarkFunctionResult);
+                Console.Write(javascriptBenchmarkFunctionResult);
+            });
         }
     }
 }

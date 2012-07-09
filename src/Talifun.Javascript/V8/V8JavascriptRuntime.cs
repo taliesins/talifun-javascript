@@ -27,8 +27,6 @@ namespace Talifun.Javascript.V8
         {
             if (functionName == null)
                 throw new ArgumentNullException("functionName");
-            if (args == null)
-                throw new ArgumentNullException("args");
 
             var arguments = GetArgs(args);
             var code = string.Format("{0}({1});", functionName, arguments);
