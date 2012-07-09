@@ -19,7 +19,7 @@ namespace Talifun.Javascript.Tests
                 {
                     javascriptRuntime = new V8JavascriptRuntime();
 
-                    using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.Benchmark.js")))
+                    using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.ReverseString.js")))
                     {
                         var reverseStringLibrary = reader.ReadToEnd();
                         javascriptRuntime.LoadLibrary(reverseStringLibrary);
@@ -67,7 +67,7 @@ namespace Talifun.Javascript.Tests
             @"Then benchmark results should be returned".Observation(() =>
             {
                 Assert.NotNull(javascriptBenchmarkFunctionResult);
-                Console.Write(javascriptBenchmarkFunctionResult);
+                Console.Write("V8 Benchmark - " + javascriptBenchmarkFunctionResult);
             });
         }
 
@@ -75,7 +75,7 @@ namespace Talifun.Javascript.Tests
         public void CoffeeScriptTest()
         {
             IJavascriptRuntime javascriptRuntime = null;
-            string javascriptBenchmarkFunctionResult = string.Empty;
+            string javascriptScriptFunctionResult = string.Empty;
             @"Given a V8 Javascript Runtime
               And coffee script compiler library".Context(() =>
             {
@@ -85,17 +85,28 @@ namespace Talifun.Javascript.Tests
                     var coffeeScriptCompilerLibrary = reader.ReadToEnd();
                     javascriptRuntime.LoadLibrary(coffeeScriptCompilerLibrary);
                 }
+                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.RunCoffeeScriptCompiler.js")))
+                {
+                    var runCoffeeScriptCompilerLibrary = reader.ReadToEnd();
+                    javascriptRuntime.LoadLibrary(runCoffeeScriptCompilerLibrary);
+                }
             });
 
-            @"When benchmark suite is run".Do(() =>
+            @"When coffee script is compiled".Do(() =>
             {
-                javascriptBenchmarkFunctionResult = javascriptRuntime.ExecuteFunction<string>("RunBenchMark", new object[] { });
+                var coffeeScript = string.Empty;
+                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.PlayerSpec.coffee")))
+                {
+                    coffeeScript = reader.ReadToEnd();
+                }
+
+                javascriptScriptFunctionResult = javascriptRuntime.ExecuteFunction<string>("RunCoffeeScriptCompiler", new object[] { coffeeScript });
             });
 
-            @"Then benchmark results should be returned".Observation(() =>
+            @"Then javascript script should be returned".Observation(() =>
             {
-                Assert.NotNull(javascriptBenchmarkFunctionResult);
-                Console.Write(javascriptBenchmarkFunctionResult);
+                Assert.NotNull(javascriptScriptFunctionResult);
+                Console.Write(javascriptScriptFunctionResult);
             });
         }
 

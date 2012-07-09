@@ -71,6 +71,7 @@
     <EmbeddedResource Include="scripts\Benchmark.js" />
     <EmbeddedResource Include="scripts\ReverseString.js" />
     <EmbeddedResource Include="scripts\RunBenchmark.js" />
+    <EmbeddedResource Include="scripts\RunCoffeeScriptCompiler.js" />
     <Content Include="SubSpec\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
