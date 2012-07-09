@@ -9,7 +9,7 @@ properties {
   Write-Output "Loading xunit properties"
   $xunit = @{}
   $xunit.logfile = "$($build.dir)\xunit.log.xml"
-  $xunit.runner = (Get-ChildItem "$($base.dir)\*" -recurse -include xunit.console.clr4.x86.exe).FullName
+  $xunit.runner = (Get-ChildItem "$($base.dir)\*" -recurse -include xunit.console.clr4.exe).FullName
 }
 
 function Invoke-TestRunner {

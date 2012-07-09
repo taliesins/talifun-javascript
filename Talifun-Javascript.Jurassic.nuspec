@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Talifun.Javascript.Jurassic</id>
+    <version>1.0.0.0</version>
+    <title>Talifun.Javascript.Jurassic</title>
+    <authors>Taliesin Sisson</authors>
+    <owners>Talifun Ltd</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://github.com/taliesins/talifun-javascript</projectUrl>
+    <iconUrl>http://code.google.com/p/talifun-web/logo</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Jurassic javascript runtime for .net. Jurassic is 100% .net javascript runtime.</description>
+    <summary>Jurassic javascript runtime for .net. Jurassic is 100% .net javascript runtime.</summary>
+    <language>en-GB</language>
+    <tags>talifun javascript c# server side jurassic</tags>
+    <dependencies>
+	  <dependency id="Talifun.Javascript" version="1.0.0.0" />
+	  <dependency id="Jurassic" version="2.1.1" />
+    </dependencies>
+  </metadata>
+  <files>
+	<file src="bin\Talifun.Javascript.Jurassic.dll" target="lib/net40" />
+  </files>  
+</package>

@@ -10,15 +10,10 @@
     <projectUrl>http://github.com/taliesins/talifun-javascript</projectUrl>
     <iconUrl>http://code.google.com/p/talifun-web/logo</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>4 different Javascript runtimes, behind common interface.</description>
+    <description>Common interface for javascript runtimes.</description>
     <summary>Run javascript server side in .Net.</summary>
     <language>en-GB</language>
     <tags>talifun javascript c# server side</tags>
-    <dependencies>
-      <dependency id="Jurassic" version="2.1.1" />
-	  <dependency id="Newtonsoft.Json" version="4.5.7" />
-	  <dependency id="Noesis.Javascript" version="0.7.1.0" />
-    </dependencies>
   </metadata>
   <files>
 	<file src="bin\Talifun.Javascript.dll" target="lib/net40" />
