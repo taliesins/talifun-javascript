@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{67D1B36E-FF54-401A-916E-F521726D97E0}</ProjectGuid>
+    <ProjectGuid>{32E35E08-17D6-4048-92EC-F433F4DD15DD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Talifun.Javascript.Tests</RootNamespace>
-    <AssemblyName>Talifun.Javascript.Tests</AssemblyName>
+    <RootNamespace>Talifun.Javascript.ActiveScript</RootNamespace>
+    <AssemblyName>Talifun.Javascript.ActiveScript</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,58 +38,50 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="xunit">
-      <HintPath>..\..\packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
-    </Reference>
-    <Reference Include="xunit.extensions">
-      <HintPath>..\..\packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChakraJavascriptRuntimeTests.cs" />
-    <Compile Include="JScriptJavascriptRuntimeTests.cs" />
-    <Compile Include="JurassicJavascriptRuntimeTests.cs" />
+    <Compile Include="ActiveScriptException.cs" />
+    <Compile Include="ActiveScriptJavascriptRuntimeBase.cs" />
+    <Compile Include="ActiveScriptParseWrapper.cs" />
+    <Compile Include="BaseActiveScriptSite.cs" />
+    <Compile Include="Chakra\ChakraJavaScriptAuthor.cs" />
+    <Compile Include="Chakra\ChakraJavaScriptEngine.cs" />
+    <Compile Include="Chakra\ChakraJavascriptRuntime.cs" />
+    <Compile Include="IActiveScript.cs" />
+    <Compile Include="IActiveScriptError.cs" />
+    <Compile Include="IActiveScriptParse32.cs" />
+    <Compile Include="IActiveScriptParse64.cs" />
+    <Compile Include="IActiveScriptParseProcedure32.cs" />
+    <Compile Include="IActiveScriptParseProcedure64.cs" />
+    <Compile Include="IActiveScriptParseWrapper.cs" />
+    <Compile Include="IActiveScriptSite.cs" />
+    <Compile Include="IActiveScriptSiteInterruptPoll.cs" />
+    <Compile Include="IActiveScriptStats.cs" />
+    <Compile Include="IBindEventHandler.cs" />
+    <Compile Include="JScript\JScriptJavaScriptAuthor.cs" />
+    <Compile Include="JScript\JScriptJavaScriptCompactEngine.cs" />
+    <Compile Include="JScript\JScriptJavaScriptEncode.cs" />
+    <Compile Include="JScript\JScriptJavaScriptEngine.cs" />
+    <Compile Include="JScript\JScriptJavascriptRuntime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubSpec\SubSpec.cs" />
-    <Compile Include="SubSpec\SubSpec.Thesis.cs" />
-    <Compile Include="SubSpec\SubSpecUtils.cs" />
-    <Compile Include="V8JavascriptRuntimeTests.cs" />
+    <Compile Include="ScriptInfoFlags.cs" />
+    <Compile Include="ScriptInterruptFlags.cs" />
+    <Compile Include="ScriptItemFlags.cs" />
+    <Compile Include="ScriptProcedureFlags.cs" />
+    <Compile Include="ScriptState.cs" />
+    <Compile Include="ScriptStatistic.cs" />
+    <Compile Include="ScriptTextFlags.cs" />
+    <Compile Include="ScriptThreadId.cs" />
+    <Compile Include="ScriptThreadState.cs" />
+    <Compile Include="ScriptTypeLibFlags.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <EmbeddedResource Include="scripts\PlayerSpec.coffee" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="scripts\CoffeeScript.js" />
-    <EmbeddedResource Include="scripts\Benchmark.js" />
-    <EmbeddedResource Include="scripts\ReverseString.js" />
-    <EmbeddedResource Include="scripts\RunBenchmark.js" />
-    <EmbeddedResource Include="scripts\RunCoffeeScriptCompiler.js" />
-    <Content Include="SubSpec\LICENSE.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Talifun.Javascript.ActiveScript\Talifun.Javascript.ActiveScript.csproj">
-      <Project>{32E35E08-17D6-4048-92EC-F433F4DD15DD}</Project>
-      <Name>Talifun.Javascript.ActiveScript</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Talifun.Javascript.Jurassic\Talifun.Javascript.Jurassic.csproj">
-      <Project>{7C4FBE60-4744-4508-A30A-A1A7644E6886}</Project>
-      <Name>Talifun.Javascript.Jurassic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Talifun.Javascript.V8\Talifun.Javascript.V8.csproj">
-      <Project>{0AA79DEF-957E-44D4-91AA-CC7F81794524}</Project>
-      <Name>Talifun.Javascript.V8</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Talifun.Javascript\Talifun.Javascript.csproj">
       <Project>{4153573B-3969-4679-AC20-1197BDE129AF}</Project>
       <Name>Talifun.Javascript</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
