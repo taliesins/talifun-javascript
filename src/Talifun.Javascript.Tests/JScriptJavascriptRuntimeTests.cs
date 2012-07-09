@@ -9,13 +9,6 @@ namespace Talifun.Javascript.Tests
 {
     public class JScriptJavascriptRuntimeTests
     {
-        public const string JavascriptReverseStringFunction = @"
-function ReverseString(stringToReverse)
-{
-    return stringToReverse.split('').reverse().join('');
-}
-";
-
         [Specification]
         public void FunctionWithArgumentAndReturnResultTest()
         {
@@ -25,7 +18,11 @@ function ReverseString(stringToReverse)
               And a reverse string javascript function".Context(() =>
                 {
                     javascriptRuntime = new JScriptJavascriptRuntime();
-                    javascriptRuntime.LoadLibrary(JavascriptReverseStringFunction);
+                    using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.Benchmark.js")))
+                    {
+                        var reverseStringLibrary = reader.ReadToEnd();
+                        javascriptRuntime.LoadLibrary(reverseStringLibrary);
+                    }
                 });
 
             @"When reverse string javascript function is called with 'test' as argument".Do(() =>
@@ -47,14 +44,19 @@ function ReverseString(stringToReverse)
             string javascriptBenchmarkFunctionResult = string.Empty;
             @"Given a JScript Javascript Runtime
               And a benchmark suite".Context(() =>
-                                    {
-                                        javascriptRuntime = new JScriptJavascriptRuntime();
-                                        using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.Benchmark.js")))
-                                        {
-                                            var benchmarkLibrary = reader.ReadToEnd();
-                                            javascriptRuntime.LoadLibrary(benchmarkLibrary);
-                                        }
-                                    });
+            {
+                javascriptRuntime = new JScriptJavascriptRuntime();
+                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.Benchmark.js")))
+                {
+                    var benchmarkLibrary = reader.ReadToEnd();
+                    javascriptRuntime.LoadLibrary(benchmarkLibrary);
+                }
+                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.RunBenchmark.js")))
+                {
+                    var runbenchmarkLibrary = reader.ReadToEnd();
+                    javascriptRuntime.LoadLibrary(runbenchmarkLibrary);
+                }
+            });
 
             @"When benchmark suite is run".Do(() =>
             {

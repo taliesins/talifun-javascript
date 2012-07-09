@@ -64,10 +64,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="scripts\PlayerSpec.coffee" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CoffeeScript.js" />
-    <EmbeddedResource Include="Benchmark.js" />
+    <EmbeddedResource Include="scripts\CoffeeScript.js" />
+    <EmbeddedResource Include="scripts\Benchmark.js" />
+    <EmbeddedResource Include="scripts\ReverseString.js" />
+    <EmbeddedResource Include="scripts\RunBenchmark.js" />
     <Content Include="SubSpec\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>

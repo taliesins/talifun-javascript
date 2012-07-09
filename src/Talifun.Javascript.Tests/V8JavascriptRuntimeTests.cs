@@ -9,13 +9,6 @@ namespace Talifun.Javascript.Tests
 {
     public class V8JavascriptRuntimeTests
     {
-        public const string JavascriptReverseStringFunction = @"
-function ReverseString(stringToReverse)
-{
-    return stringToReverse.split('').reverse().join('');
-}
-";
-
         [Specification]
         public void FunctionWithArgumentAndReturnResultTest()
         {
@@ -25,7 +18,12 @@ function ReverseString(stringToReverse)
               And a reverse string javascript function".Context(() =>
                 {
                     javascriptRuntime = new V8JavascriptRuntime();
-                    javascriptRuntime.LoadLibrary(JavascriptReverseStringFunction);
+
+                    using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.Benchmark.js")))
+                    {
+                        var reverseStringLibrary = reader.ReadToEnd();
+                        javascriptRuntime.LoadLibrary(reverseStringLibrary);
+                    }
                 });
 
             @"When reverse string javascript function is called with 'test' as argument".Do(() =>
@@ -49,10 +47,15 @@ function ReverseString(stringToReverse)
               And a benchmark suite".Context(() =>
             {
                 javascriptRuntime = new V8JavascriptRuntime();
-                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.Benchmark.js")))
+                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.Benchmark.js")))
                 {
                     var benchmarkLibrary = reader.ReadToEnd();
                     javascriptRuntime.LoadLibrary(benchmarkLibrary);
+                }
+                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.RunBenchmark.js")))
+                {
+                    var runbenchmarkLibrary = reader.ReadToEnd();
+                    javascriptRuntime.LoadLibrary(runbenchmarkLibrary);
                 }
             });
 
@@ -67,5 +70,34 @@ function ReverseString(stringToReverse)
                 Console.Write(javascriptBenchmarkFunctionResult);
             });
         }
+
+        [Specification]
+        public void CoffeeScriptTest()
+        {
+            IJavascriptRuntime javascriptRuntime = null;
+            string javascriptBenchmarkFunctionResult = string.Empty;
+            @"Given a V8 Javascript Runtime
+              And coffee script compiler library".Context(() =>
+            {
+                javascriptRuntime = new V8JavascriptRuntime();
+                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.CoffeeScript.js")))
+                {
+                    var coffeeScriptCompilerLibrary = reader.ReadToEnd();
+                    javascriptRuntime.LoadLibrary(coffeeScriptCompilerLibrary);
+                }
+            });
+
+            @"When benchmark suite is run".Do(() =>
+            {
+                javascriptBenchmarkFunctionResult = javascriptRuntime.ExecuteFunction<string>("RunBenchMark", new object[] { });
+            });
+
+            @"Then benchmark results should be returned".Observation(() =>
+            {
+                Assert.NotNull(javascriptBenchmarkFunctionResult);
+                Console.Write(javascriptBenchmarkFunctionResult);
+            });
+        }
+
     }
 }

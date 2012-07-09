@@ -12,20 +12,17 @@ namespace Talifun.Javascript.Tests
         [Specification]
         public void FunctionWithArgumentAndReturnResultTest()
         {
-             const string javascriptReverseStringFunction = @"
-function ReverseString(stringToReverse)
-{
-    return stringToReverse.split('').reverse().join('');
-}
-";
-
             IJavascriptRuntime javascriptRuntime = null;
             string javascriptReverseStringFunctionResult = string.Empty;
             @"Given a Chakra Javascript Runtime
               And a reverse string javascript function".Context(() =>
                 {
                     javascriptRuntime = new ChakraJavascriptRuntime();
-                    javascriptRuntime.LoadLibrary(javascriptReverseStringFunction);
+                    using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.Benchmark.js")))
+                    {
+                        var reverseStringLibrary = reader.ReadToEnd();
+                        javascriptRuntime.LoadLibrary(reverseStringLibrary);
+                    }
                 });
 
             @"When reverse string javascript function is called with 'test' as argument".Do(() =>
@@ -49,10 +46,15 @@ function ReverseString(stringToReverse)
               And a benchmark suite".Context(() =>
             {
                 javascriptRuntime = new ChakraJavascriptRuntime();
-                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.Benchmark.js")))
+                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.Benchmark.js")))
                 {
                     var benchmarkLibrary = reader.ReadToEnd();
                     javascriptRuntime.LoadLibrary(benchmarkLibrary);
+                }
+                using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.RunBenchmark.js")))
+                {
+                    var runbenchmarkLibrary = reader.ReadToEnd();
+                    javascriptRuntime.LoadLibrary(runbenchmarkLibrary);
                 }
             });
 
