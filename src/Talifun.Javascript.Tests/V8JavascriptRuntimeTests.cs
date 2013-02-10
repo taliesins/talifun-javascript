@@ -10,10 +10,103 @@ namespace Talifun.Javascript.Tests
     public class V8JavascriptRuntimeTests
     {
         [Specification]
+        public void GettingGlobalVariableTest()
+        {
+            var javascriptRuntime = default(V8JavascriptRuntime);
+            var javascriptGlobalVariable = string.Empty;
+
+            @"Given a V8 Javascript Runtime
+              And a global variable".Context(() =>
+                {
+                    javascriptRuntime = new V8JavascriptRuntime();
+
+                    using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.ReverseString.js")))
+                    {
+                        var reverseStringLibrary = reader.ReadToEnd();
+                        javascriptRuntime.LoadLibrary(reverseStringLibrary);
+                    }
+                });
+
+            @"When getting global variable".Do(() =>
+            {
+                javascriptGlobalVariable = javascriptRuntime.GetVariable<string>("test");
+            });
+
+            @"Then 'tset' should be returned".Observation(() =>
+            {
+                Assert.Equal("tset", javascriptGlobalVariable);
+            });
+        }
+
+        [Specification]
+        public void SettingGlobalVariableTest()
+        {
+            var javascriptRuntime = default(V8JavascriptRuntime);
+            var javascriptReverseStringFunctionResult = string.Empty;
+
+            @"Given a V8 Javascript Runtime
+              And a reverse string delegate function
+              And a global variable to reverse".Context(() =>
+                {
+                    javascriptRuntime = new V8JavascriptRuntime();
+
+                    using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.ReverseString.js")))
+                    {
+                        var reverseStringLibrary = reader.ReadToEnd();
+                        javascriptRuntime.LoadLibrary(reverseStringLibrary);
+                    }
+
+                    javascriptRuntime.SetVariable("stringToReverse", "test");
+                });
+
+            @"When reverse string javascript function is called that uses global variable".Do(() =>
+            {
+                javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseString");
+            });
+
+            @"Then 'tset' should be returned".Observation(() =>
+            {
+                Assert.Equal("tset", javascriptReverseStringFunctionResult);
+            });
+        }
+
+
+        [Specification]
+        public void UsingGlobalFunctionTest()
+        {
+            var javascriptRuntime = default(V8JavascriptRuntime);
+            var javascriptReverseStringFunctionResult = string.Empty;
+            @"Given a V8 Javascript Runtime
+              And a reverse string delegate function".Context(() =>
+                {
+                    javascriptRuntime = new V8JavascriptRuntime();
+
+                    Func<string, string> reverseStringMethod = delegate(string stringToReverse)
+                        {
+                            var stringToReverseArray = stringToReverse.ToCharArray();
+                            Array.Reverse(stringToReverseArray);
+                            return new string(stringToReverseArray);
+                        };
+
+                    javascriptRuntime.SetFunction("ReverseString", reverseStringMethod);
+                });
+
+            @"When reverse string javascript function is called with 'test' as argument".Do(() =>
+            {
+                javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseString", "test");
+            });
+
+            @"Then 'tset' should be returned".Observation(() =>
+            {
+                Assert.Equal("tset", javascriptReverseStringFunctionResult);
+            });
+        }
+
+        [Specification]
         public void FunctionWithArgumentAndReturnResultTest()
         {
-            IJavascriptRuntime javascriptRuntime = null;
-            string javascriptReverseStringFunctionResult = string.Empty;
+            var javascriptRuntime = default(V8JavascriptRuntime);
+            var javascriptReverseStringFunctionResult = string.Empty;
             @"Given a V8 Javascript Runtime
               And a reverse string javascript function".Context(() =>
                 {
@@ -41,8 +134,8 @@ namespace Talifun.Javascript.Tests
         [Specification]
         public void BenchmarkResultTest()
         {
-            IJavascriptRuntime javascriptRuntime = null;
-            string javascriptBenchmarkFunctionResult = string.Empty;
+            var javascriptRuntime = default(V8JavascriptRuntime);
+            var javascriptBenchmarkFunctionResult = string.Empty;
             @"Given a V8 Javascript Runtime
               And a benchmark suite".Context(() =>
             {
@@ -74,8 +167,8 @@ namespace Talifun.Javascript.Tests
         [Specification]
         public void CoffeeScriptTest()
         {
-            IJavascriptRuntime javascriptRuntime = null;
-            string javascriptScriptFunctionResult = string.Empty;
+            var javascriptRuntime = default(V8JavascriptRuntime);
+            var javascriptScriptFunctionResult = string.Empty;
             @"Given a V8 Javascript Runtime
               And coffee script compiler library".Context(() =>
             {

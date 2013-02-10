@@ -6,14 +6,14 @@ using Noesis.Javascript;
 
 namespace Talifun.Javascript.V8
 {
-    public class V8JavascriptRuntime : IJavascriptRuntime
+    public class V8JavascriptRuntime : IJavascriptRuntime, IJavascriptRuntimeGlobalVariable, IJavascriptRuntimeGlobalFunction
     {
         protected readonly TimeSpan LockTimeout;
         protected readonly object ScriptEngineLock = new object();
         protected readonly JavascriptContext ScriptEngine;
 
         public V8JavascriptRuntime()
-		{
+        {
             ScriptEngine = new JavascriptContext();
 			LockTimeout = TimeSpan.FromSeconds(10);
 		}
@@ -46,7 +46,20 @@ namespace Talifun.Javascript.V8
             return argString;
         }
 
+        public T GetVariable<T>(string variableName)
+        {
+            return (T)ScriptEngine.GetParameter(variableName);
+        }
 
+        public void SetVariable(string variableName, object value)
+        {
+            ScriptEngine.SetParameter(variableName, value);
+        }
+
+        public void SetFunction(string functionName, Delegate function)
+        {
+            ScriptEngine.SetParameter(functionName, function);
+        }
 
         #region IDisposable Members
         private int alreadyDisposed = 0;

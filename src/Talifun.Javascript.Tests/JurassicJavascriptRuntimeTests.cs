@@ -70,8 +70,7 @@ namespace Talifun.Javascript.Tests
             });
         }
 
-        //[Specification]
-        // Takes over a minute to run
+        [Specification]
         public void CoffeeScriptTest()
         {
             IJavascriptRuntime javascriptRuntime = null;

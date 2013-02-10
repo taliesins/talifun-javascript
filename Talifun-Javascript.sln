@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Talifun.Javascript.Jurassic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Talifun.Javascript.V8", "src\Talifun.Javascript.V8\Talifun.Javascript.V8.csproj", "{0AA79DEF-957E-44D4-91AA-CC7F81794524}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Talifun.Javascript.SpiderMonkey", "src\Talifun.Javascript.SpiderMonkey\Talifun.Javascript.SpiderMonkey.csproj", "{C545464F-E836-466D-845C-9AED09521B21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0AA79DEF-957E-44D4-91AA-CC7F81794524}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AA79DEF-957E-44D4-91AA-CC7F81794524}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AA79DEF-957E-44D4-91AA-CC7F81794524}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C545464F-E836-466D-845C-9AED09521B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C545464F-E836-466D-845C-9AED09521B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C545464F-E836-466D-845C-9AED09521B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C545464F-E836-466D-845C-9AED09521B21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
