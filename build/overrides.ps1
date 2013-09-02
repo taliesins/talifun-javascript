@@ -12,4 +12,5 @@ properties {
   Write-Output "Loading override settings"
   
   $solution.name = "Talifun-Javascript"
+  $solution.file = "$($base.dir)\$($solution.name).sln"
 }
