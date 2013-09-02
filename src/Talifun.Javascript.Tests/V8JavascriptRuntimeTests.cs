@@ -103,6 +103,28 @@ namespace Talifun.Javascript.Tests
         }
 
         [Specification]
+        public void FunctionWithArgumentAndReturnButDoesNotExists()
+        {
+            var javascriptRuntime = default(V8JavascriptRuntime);
+            var javascriptReverseStringFunctionResult = string.Empty;
+            @"Given a V8 Javascript Runtime".Context(() =>
+                                                       {
+                                                           javascriptRuntime = new V8JavascriptRuntime();
+                                                       });
+
+            @"When reverse string javascript function is called with 'test' as argument".Do(() =>
+            {
+                javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseString", "test");
+            });
+
+            @"Then 'tset' should be returned".Observation(() =>
+            {
+                Assert.Equal("tset", javascriptReverseStringFunctionResult);
+            });
+
+        }
+
+        [Specification]
         public void FunctionWithArgumentAndReturnResultTest()
         {
             var javascriptRuntime = default(V8JavascriptRuntime);

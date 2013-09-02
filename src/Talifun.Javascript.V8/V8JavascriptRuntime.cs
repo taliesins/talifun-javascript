@@ -8,14 +8,12 @@ namespace Talifun.Javascript.V8
 {
     public class V8JavascriptRuntime : IJavascriptRuntime, IJavascriptRuntimeGlobalVariable, IJavascriptRuntimeGlobalFunction
     {
-        protected readonly TimeSpan LockTimeout;
         protected readonly object ScriptEngineLock = new object();
         protected readonly JavascriptContext ScriptEngine;
 
         public V8JavascriptRuntime()
         {
             ScriptEngine = new JavascriptContext();
-			LockTimeout = TimeSpan.FromSeconds(10);
 		}
 
         public void LoadLibrary(string code)
