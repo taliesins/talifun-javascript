@@ -61,15 +61,14 @@ namespace Talifun.Javascript.Tests
 
             @"When reverse string javascript function is called that uses global variable".Do(() =>
             {
-                javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseString");
+                javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseStringWithNoParameter");
             });
 
-            @"Then 'tset' should be returned".Observation(() =>
+            @"Then 'test' should be returned".Observation(() =>
             {
-                Assert.Equal("tset", javascriptReverseStringFunctionResult);
+                Assert.Equal("test", javascriptReverseStringFunctionResult);
             });
         }
-
 
         [Specification]
         public void UsingGlobalFunctionTest()
@@ -103,28 +102,6 @@ namespace Talifun.Javascript.Tests
         }
 
         [Specification]
-        public void FunctionWithArgumentAndReturnButDoesNotExists()
-        {
-            var javascriptRuntime = default(V8JavascriptRuntime);
-            var javascriptReverseStringFunctionResult = string.Empty;
-            @"Given a V8 Javascript Runtime".Context(() =>
-                                                       {
-                                                           javascriptRuntime = new V8JavascriptRuntime();
-                                                       });
-
-            @"When reverse string javascript function is called with 'test' as argument".Do(() =>
-            {
-                javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseString", "test");
-            });
-
-            @"Then 'tset' should be returned".Observation(() =>
-            {
-                Assert.Equal("tset", javascriptReverseStringFunctionResult);
-            });
-
-        }
-
-        [Specification]
         public void FunctionWithArgumentAndReturnResultTest()
         {
             var javascriptRuntime = default(V8JavascriptRuntime);
@@ -143,14 +120,65 @@ namespace Talifun.Javascript.Tests
 
             @"When reverse string javascript function is called with 'test' as argument".Do(() =>
                 {
-                    javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseString", "test");
+                    javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseStringWithParameter", "test");
                 });
 
             @"Then 'tset' should be returned".Observation(() =>
                 {
                     Assert.Equal("tset", javascriptReverseStringFunctionResult);
                 });
+        }
 
+        [Specification]
+        public void FunctionWithNoArgumentAndReturnResultTest()
+        {
+            var javascriptRuntime = default(V8JavascriptRuntime);
+            var javascriptReverseStringFunctionResult = string.Empty;
+            @"Given a V8 Javascript Runtime
+              And a reverse string javascript function".Context(() =>
+                                                       {
+                                                           javascriptRuntime = new V8JavascriptRuntime();
+
+                                                           using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.ReverseString.js")))
+                                                           {
+                                                               var reverseStringLibrary = reader.ReadToEnd();
+                                                               javascriptRuntime.LoadLibrary(reverseStringLibrary);
+                                                           }
+                                                       });
+
+            @"When reverse string javascript function is called with no argument".Do(() =>
+            {
+                javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseStringWithNoParameter");
+            });
+
+            @"Then 'test' should be returned".Observation(() =>
+            {
+                Assert.Equal("test", javascriptReverseStringFunctionResult);
+            });
+        }
+
+        [Specification]
+        public void FunctionWithArgumentAndReturnButDoesNotExists()
+        {
+            var javascriptRuntime = default(V8JavascriptRuntime);
+            var javascriptReverseStringFunctionResult = string.Empty;
+            var exception = default(Exception);
+            @"Given a V8 Javascript Runtime".Context(() =>
+            {
+                javascriptRuntime = new V8JavascriptRuntime();
+            });
+
+            @"When reverse string javascript function is called with 'test' as argument".Do(() =>
+            {
+                exception = Record.Exception(() =>
+                    javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseStringWithParameter", "test")
+                );
+            });
+
+            @"Then '' should be returned".Observation(() =>
+            {
+                Assert.NotNull(exception);
+            });
         }
 
         [Specification]

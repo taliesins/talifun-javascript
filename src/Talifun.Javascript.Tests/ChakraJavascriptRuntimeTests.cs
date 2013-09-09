@@ -12,12 +12,13 @@ namespace Talifun.Javascript.Tests
         [Specification]
         public void FunctionWithArgumentAndReturnResultTest()
         {
-            IJavascriptRuntime javascriptRuntime = null;
-            string javascriptReverseStringFunctionResult = string.Empty;
+            var javascriptRuntime = default(ChakraJavascriptRuntime);
+            var javascriptReverseStringFunctionResult = string.Empty;
             @"Given a Chakra Javascript Runtime
               And a reverse string javascript function".Context(() =>
                 {
                     javascriptRuntime = new ChakraJavascriptRuntime();
+
                     using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.ReverseString.js")))
                     {
                         var reverseStringLibrary = reader.ReadToEnd();
@@ -26,15 +27,42 @@ namespace Talifun.Javascript.Tests
                 });
 
             @"When reverse string javascript function is called with 'test' as argument".Do(() =>
-                {
-                    javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseString", "test");
-                });
+            {
+                javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseStringWithParameter", "test");
+            });
 
             @"Then 'tset' should be returned".Observation(() =>
+            {
+                Assert.Equal("tset", javascriptReverseStringFunctionResult);
+            });
+        }
+
+        [Specification]
+        public void FunctionWithNoArgumentAndReturnResultTest()
+        {
+            var javascriptRuntime = default(ChakraJavascriptRuntime);
+            var javascriptReverseStringFunctionResult = string.Empty;
+            @"Given a Chakra Javascript Runtime
+              And a reverse string javascript function".Context(() =>
                 {
-                    Assert.Equal("tset", javascriptReverseStringFunctionResult);
+                    javascriptRuntime = new ChakraJavascriptRuntime();
+
+                    using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Talifun.Javascript.Tests.scripts.ReverseString.js")))
+                    {
+                        var reverseStringLibrary = reader.ReadToEnd();
+                        javascriptRuntime.LoadLibrary(reverseStringLibrary);
+                    }
                 });
 
+            @"When reverse string javascript function is called with no argument".Do(() =>
+            {
+                javascriptReverseStringFunctionResult = javascriptRuntime.ExecuteFunction<string>("ReverseStringWithNoParameter");
+            });
+
+            @"Then 'test' should be returned".Observation(() =>
+            {
+                Assert.Equal("test", javascriptReverseStringFunctionResult);
+            });
         }
 
         [Specification]

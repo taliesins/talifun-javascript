@@ -1,9 +1,9 @@
 ﻿var test = "tset";
 
-function ReverseString(stringToReverse) {
+function ReverseStringWithParameter(stringToReverse) {
     return stringToReverse.split('').reverse().join('');
 }
 
-function ReverseString() {
-    return stringToReverse.split('').reverse().join('');
+function ReverseStringWithNoParameter() {
+    return test.split('').reverse().join('');
 }
